@@ -16,27 +16,30 @@ const PreciseReading = () => {
   const preciseReading = generatePreciseReading(currentReading)
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-6 sm:p-8 mobile-safe-area" style={{ 
+      paddingTop: '80px',
+      paddingBottom: '40px'
+    }}>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center mb-6"
+        className="flex items-center mb-6 sm:mb-8"
       >
         <button
           onClick={() => navigate('/')}
-          className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors mr-4"
+          className="p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors mr-3 sm:mr-4"
         >
-          <ArrowLeft className="w-5 h-5 text-white" />
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
         </button>
-        <h1 className="text-2xl font-bold text-white">Детальный прогноз</h1>
+        <h1 className="text-lg sm:text-2xl font-bold text-white">Детальный прогноз</h1>
       </motion.div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-8">
         {/* Detailed Interpretation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-effect rounded-2xl p-6"
+          className="glass-effect rounded-2xl p-6 sm:p-8"
           style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
@@ -44,11 +47,11 @@ const PreciseReading = () => {
             color: 'white'
           }}
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center">
-            <Sparkles className="w-5 h-5 mr-2" />
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center">
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Детальная интерпретация
           </h2>
-          <p className="text-white/90 leading-relaxed">{preciseReading.detailedInterpretation}</p>
+          <p className="text-white/90 leading-relaxed text-sm sm:text-base">{preciseReading.detailedInterpretation}</p>
         </motion.div>
 
         {/* Advice */}
@@ -56,7 +59,7 @@ const PreciseReading = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="glass-effect rounded-2xl p-6"
+          className="glass-effect rounded-2xl p-6 sm:p-8"
           style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
@@ -64,11 +67,11 @@ const PreciseReading = () => {
             color: 'white'
           }}
         >
-          <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-            <Lightbulb className="w-5 h-5 mr-2" />
+          <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center">
+            <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Совет
           </h3>
-          <p className="text-white/90">{preciseReading.advice}</p>
+          <p className="text-white/90 text-sm sm:text-base">{preciseReading.advice}</p>
         </motion.div>
 
         {/* Timing */}
@@ -76,7 +79,7 @@ const PreciseReading = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="glass-effect rounded-2xl p-6"
+          className="glass-effect rounded-2xl p-6 sm:p-8"
           style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
@@ -84,11 +87,11 @@ const PreciseReading = () => {
             color: 'white'
           }}
         >
-          <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-            <Clock className="w-5 h-5 mr-2" />
+          <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Время
           </h3>
-          <p className="text-white/90">{preciseReading.timing}</p>
+          <p className="text-white/90 text-sm sm:text-base">{preciseReading.timing}</p>
         </motion.div>
 
         {/* Energy */}
@@ -96,7 +99,7 @@ const PreciseReading = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="glass-effect rounded-2xl p-6"
+          className="glass-effect rounded-2xl p-6 sm:p-8"
           style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
@@ -104,11 +107,11 @@ const PreciseReading = () => {
             color: 'white'
           }}
         >
-          <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-            <Zap className="w-5 h-5 mr-2" />
+          <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center">
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Энергия
           </h3>
-          <p className="text-white/90">{preciseReading.energy}</p>
+          <p className="text-white/90 text-sm sm:text-base">{preciseReading.energy}</p>
         </motion.div>
       </div>
     </div>

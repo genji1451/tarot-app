@@ -39,7 +39,7 @@ const LoadingScreen = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="text-3xl font-bold mb-2"
         >
-          Tarot Mystic
+          Таро Мистик
         </motion.h1>
 
         <motion.p
@@ -48,7 +48,7 @@ const LoadingScreen = () => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="text-lg opacity-80 mb-8"
         >
-          Connecting to the cosmic energies...
+          Подключение к космическим энергиям...
         </motion.p>
 
         <motion.div

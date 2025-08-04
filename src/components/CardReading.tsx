@@ -21,25 +21,28 @@ const CardReading = () => {
   }
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-6 sm:p-8 mobile-safe-area" style={{ 
+      paddingTop: '80px',
+      paddingBottom: '40px'
+    }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center mb-6"
+        className="flex items-center mb-6 sm:mb-8"
       >
         <button
           onClick={() => navigate('/')}
-          className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors mr-4"
+          className="p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors mr-3 sm:mr-4"
         >
-          <ArrowLeft className="w-5 h-5 text-white" />
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
         </button>
-        <h1 className="text-2xl font-bold text-white">Ваше гадание</h1>
+        <h1 className="text-lg sm:text-2xl font-bold text-white">Ваше гадание</h1>
       </motion.div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-8">
         {/* Cards Display */}
-        <div className="flex justify-center space-x-4 mb-8">
+        <div className="flex justify-center space-x-3 sm:space-x-6 mb-8 sm:mb-12">
           {currentReading.cards.map((reading, index) => (
             <div
               key={reading.card.id}
@@ -48,27 +51,27 @@ const CardReading = () => {
               style={{ perspective: '800px' }}
             >
               <div
-                className={`w-24 h-36 rounded-lg shadow-xl border-2 border-white/20 relative transition-transform duration-500 card-3d ${flipped[index] ? 'flipped' : ''}`}
+                className={`w-20 h-28 sm:w-24 sm:h-36 rounded-lg shadow-xl border-2 border-white/20 relative transition-transform duration-500 card-3d ${flipped[index] ? 'flipped' : ''}`}
                 style={{ transformStyle: 'preserve-3d', transform: flipped[index] ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
               >
                 {/* Back (рубашка) */}
                 <div className="card-face absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-700 to-indigo-900 rounded-lg" style={{ backfaceVisibility: 'hidden', zIndex: 2 }}>
-                  <Sparkles className="w-10 h-10 text-white opacity-60" />
+                  <Sparkles className="w-6 h-6 sm:w-10 sm:h-10 text-white opacity-60" />
                 </div>
                 {/* Front (открытая карта) */}
                 <div className="card-face absolute inset-0 flex flex-col items-center justify-center rounded-lg" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', zIndex: 3, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
                   <div className="flex-1 flex items-center justify-center w-full">
                     <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                      <Sparkles className="w-6 h-6 text-white" />
+                      <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div className="relative z-10 text-white text-xs font-bold text-center px-1 bg-black/20 rounded-sm m-1 leading-tight">
                       {reading.card.name.split(' ').map((word, i) => (
-                        <div key={i}>{word}</div>
+                        <div key={i} className="text-xs sm:text-xs">{word}</div>
                       ))}
                     </div>
                   </div>
-                  <div className="mb-2 mt-auto">
-                    <span className="bg-white/30 px-2 py-1 rounded text-xs text-white backdrop-blur-sm border border-white/20">
+                  <div className="mb-1 sm:mb-2 mt-auto">
+                    <span className="bg-white/30 px-1 sm:px-2 py-0.5 sm:py-1 rounded text-xs text-white backdrop-blur-sm border border-white/20">
                       {reading.position === 'upright' ? 'прямая' : 'перевернутая'}
                     </span>
                   </div>
@@ -83,7 +86,7 @@ const CardReading = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-effect rounded-2xl p-6"
+            className="glass-effect rounded-2xl p-6 sm:p-8"
             style={{ 
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(10px)',
@@ -91,21 +94,21 @@ const CardReading = () => {
               color: 'white'
             }}
           >
-            <h2 className="text-xl font-bold text-white mb-4">Послание дня</h2>
-            <p className="text-white/90 leading-relaxed">{currentReading.interpretation}</p>
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">Послание дня</h2>
+            <p className="text-white/90 leading-relaxed text-sm sm:text-base">{currentReading.interpretation}</p>
           </motion.div>
         )}
 
         {/* Card Details - показывать только если все карты открыты */}
         {flipped.every(f => f) && (
-          <div className="space-y-4">
+          <div className="space-y-4 sm:space-y-6">
             {currentReading.cards.map((reading, index) => (
               <motion.div
                 key={reading.card.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 + index * 0.1 }}
-                className="glass-effect rounded-xl p-4"
+                className="glass-effect rounded-xl p-4 sm:p-6"
                 style={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   backdropFilter: 'blur(10px)',
@@ -113,11 +116,11 @@ const CardReading = () => {
                   color: 'white'
                 }}
               >
-                <h3 className="text-lg font-semibold text-white mb-2">{reading.card.name}</h3>
-                <p className="text-white/70 text-sm mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">{reading.card.name}</h3>
+                <p className="text-white/70 text-xs sm:text-sm mb-3 sm:mb-4">
                   Позиция: <span className="capitalize">{reading.position === 'upright' ? 'прямая' : 'перевернутая'}</span>
                 </p>
-                <p className="text-white/80">{reading.meaning}</p>
+                <p className="text-white/80 text-sm sm:text-base">{reading.meaning}</p>
               </motion.div>
             ))}
           </div>
@@ -129,17 +132,17 @@ const CardReading = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="flex space-x-4"
+            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
           >
             <button
               onClick={() => navigate('/precise')}
-              className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300"
+              className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold py-4 px-6 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 text-sm sm:text-base"
             >
               Детальное гадание
             </button>
             <button
               onClick={() => navigate('/')}
-              className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-300"
+              className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-300 text-sm sm:text-base"
             >
               <RotateCcw className="w-4 h-4 inline mr-2" />
               Новое гадание

@@ -2,17 +2,22 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, User, Star, Crown } from 'lucide-react'
 import { useAppStore } from '../store'
+import { useEffect } from 'react'
 
 const Profile = () => {
   const navigate = useNavigate()
   const { user, karmaBalance, isPremium } = useAppStore()
 
+  useEffect(() => {
+    console.log('Profile component rendered with padding:', '150px');
+  }, []);
+
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-[150px] bg-red-500/10 border-2 border-red-500">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center mb-6"
+        className="flex items-center mb-[60px] bg-green-500/10 border-2 border-green-500"
       >
         <button
           onClick={() => navigate('/')}
@@ -26,7 +31,7 @@ const Profile = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="glass-effect rounded-2xl p-6 mb-6"
+        className="rounded-2xl p-6 mb-6 mt-[20px]"
         style={{ 
           backgroundColor: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(10px)',
