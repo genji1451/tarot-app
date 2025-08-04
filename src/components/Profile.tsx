@@ -9,15 +9,15 @@ const Profile = () => {
   const { user, karmaBalance, isPremium } = useAppStore()
 
   useEffect(() => {
-    console.log('Profile component rendered with padding:', '150px');
+    console.log('Profile component rendered with padding:', '50px');
   }, []);
 
   return (
-    <div className="min-h-screen p-[150px] bg-red-500/10 border-2 border-red-500">
+    <div className="min-h-screen p-[20px]">
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center mb-[60px] bg-green-500/10 border-2 border-green-500"
+        className="flex items-center mb-[60px]"
       >
         <button
           onClick={() => navigate('/')}

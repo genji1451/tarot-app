@@ -16,9 +16,9 @@ const PreciseReading = () => {
   const preciseReading = generatePreciseReading(currentReading)
 
   return (
-    <div className="min-h-screen p-6 sm:p-8 mobile-safe-area" style={{ 
-      paddingTop: '80px',
-      paddingBottom: '40px'
+    <div className="min-h-screen p-5 sm:p-8" style={{ 
+      paddingTop: '50px',
+      paddingBottom: '20px'
     }}>
       <motion.div
         initial={{ opacity: 0, y: -20 }}

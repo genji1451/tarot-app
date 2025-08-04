@@ -65,12 +65,12 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 sm:p-8 mobile-safe-area" style={{ 
+    <div className="min-h-screen p-5 sm:p-8" style={{ 
       backgroundColor: 'transparent',
       position: 'relative',
       zIndex: 10,
-      paddingTop: '80px',
-      paddingBottom: '40px'
+      paddingTop: '50px',
+      paddingBottom: '20px'
     }}>
       {/* Header */}
       <div
