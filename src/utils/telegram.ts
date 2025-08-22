@@ -113,41 +113,27 @@ export const setTelegramBackgroundColor = (color: string) => {
   }
 }
 
-export const getTelegramInitData = (): string | null => {
-  if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) {
-    return window.Telegram.WebApp.initData
-  }
-  return null
+export const getTelegramInitData = (): string | null =>
+  (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) ? window.Telegram.WebApp.initData : null
+
+export const authWithTelegram = async () => {
+  const initData = getTelegramInitData()
+  if (!initData) return { error: 'Telegram initData not available' }
+  const res = await fetch('/api/auth/telegram', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ initData })
+  })
+  if (!res.ok) return { error: (await res.json().catch(() => ({})))?.error || 'Auth failed' }
+  return await res.json()
 }
 
-export const authWithTelegram = async (): Promise<{
-  user?: {
-    id: string
-    name: string
-    karma: number
-    referralCode: string
-    isPremium: boolean
-    dailyDrawsUsed: number
-    lastDailyDraw?: string
-  }
-  error?: string
-}> => {
+export const updateUserProfile = async (profile: {
+  name?: string; gender?: 'male'|'female'|'other'; birthDate?: string; birthTime?: string; birthPlace?: string; persona?: string; onboarded?: boolean
+}) => {
   const initData = getTelegramInitData()
-  if (!initData) {
-    return { error: 'Telegram initData not available' }
-  }
-
-  const res = await fetch('/api/auth/telegram', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ initData })
+  if (!initData) return { error: 'Telegram initData not available' }
+  const res = await fetch('/api/user/update', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ initData, profile })
   })
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    return { error: err?.error || 'Auth failed' }
-  }
-
-  const data = await res.json()
-  return { user: data.user }
+  if (!res.ok) return { error: (await res.json().catch(() => ({})))?.error || 'Update failed' }
+  return await res.json()
 } 

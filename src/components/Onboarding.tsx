@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { Sparkles, User, Calendar, Clock, MapPin, ArrowRight } from 'lucide-react'
 import { useAppStore } from '../store'
 import { hapticFeedback } from '../utils/telegram'
+import { updateUserProfile } from '../utils/telegram'
 
 const personaSchema = z.object({
   name: z.string().min(2, 'Имя должно содержать минимум 2 символа'),
@@ -68,33 +69,32 @@ const Onboarding = () => {
     setStep('form')
   }
 
-  const onSubmit = (data: PersonaFormData) => {
+  const onSubmit = async (data: PersonaFormData) => {
     hapticFeedback('medium')
     
     console.log('Onboarding onSubmit:', data)
     
-    const newUser = {
-      id: Date.now().toString(),
+    const res = await updateUserProfile({
       name: data.name,
       gender: data.gender,
       birthDate: data.birthDate,
       birthTime: data.birthTime,
       birthPlace: data.birthPlace,
-      karma: 100,
-      referralCode: `REF${Date.now()}`,
-      isPremium: false,
-      dailyDrawsUsed: 0,
-      quests: [],
-      achievements: []
+      persona: selectedPersona || undefined,
+      onboarded: true
+    })
+    if (res.user) {
+      const u = res.user
+      setUser({
+        id: u.id, name: u.name,
+        gender: (u.gender as any) ?? 'other',
+        birthDate: u.birthDate ?? '', birthTime: u.birthTime ?? '', birthPlace: u.birthPlace ?? '',
+        karma: u.karma ?? 100, referralCode: u.referralCode ?? `REF${u.id}`,
+        isPremium: u.isPremium ?? false, dailyDrawsUsed: u.dailyDrawsUsed ?? 0,
+        lastDailyDraw: u.lastDailyDraw, quests: [], achievements: []
+      })
+      setOnboarded(true)
     }
-
-    console.log('Setting user:', newUser)
-    setUser(newUser)
-    
-    console.log('Setting onboarded to true')
-    setOnboarded(true)
-    
-    console.log('Onboarding completed')
   }
 
   return (
