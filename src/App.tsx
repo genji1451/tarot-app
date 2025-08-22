@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useAppStore } from './store'
-import { getTelegramUser, getTelegramTheme, expandTelegramApp } from './utils/telegram'
+import { getTelegramUser, getTelegramTheme, expandTelegramApp, authWithTelegram } from './utils/telegram'
 
 // Components
 import Onboarding from './components/Onboarding'
@@ -34,37 +34,65 @@ function App() {
       return
     }
 
-    // Try to get Telegram user data
-    const telegramUser = getTelegramUser()
-    if (telegramUser && !user) {
-      // Create user from Telegram data
-      const newUser = {
-        id: telegramUser.id.toString(),
-        name: telegramUser.first_name,
-        gender: 'other' as const,
-        birthDate: '',
-        birthTime: '',
-        birthPlace: '',
-        karma: 100,
-        referralCode: `REF${telegramUser.id}`,
-        isPremium: false,
-        dailyDrawsUsed: 0,
-        quests: [],
-        achievements: []
+    const doAuth = async () => {
+      try {
+        if (!user) {
+          // Prefer server auth with Telegram verification
+          const result = await authWithTelegram()
+          if (result.user) {
+            const srv = result.user
+            const newUser = {
+              id: srv.id,
+              name: srv.name,
+              gender: 'other' as const,
+              birthDate: '',
+              birthTime: '',
+              birthPlace: '',
+              karma: srv.karma ?? 100,
+              referralCode: srv.referralCode ?? `REF${srv.id}`,
+              isPremium: srv.isPremium ?? false,
+              dailyDrawsUsed: srv.dailyDrawsUsed ?? 0,
+              lastDailyDraw: srv.lastDailyDraw,
+              quests: [],
+              achievements: []
+            }
+            setUser(newUser)
+          } else {
+            // Fallback to client-only creation if API not available
+            const telegramUser = getTelegramUser()
+            if (telegramUser) {
+              const fallbackUser = {
+                id: telegramUser.id.toString(),
+                name: telegramUser.first_name,
+                gender: 'other' as const,
+                birthDate: '',
+                birthTime: '',
+                birthPlace: '',
+                karma: 100,
+                referralCode: `REF${telegramUser.id}`,
+                isPremium: false,
+                dailyDrawsUsed: 0,
+                quests: [],
+                achievements: []
+              }
+              setUser(fallbackUser)
+            }
+          }
+        }
+      } finally {
+        // Set theme based on Telegram
+        const theme = getTelegramTheme()
+        if (settings.theme === 'auto') {
+          setSettings({
+            ...settings,
+            theme: theme
+          })
+        }
+        setLoading(false)
       }
-      setUser(newUser)
     }
 
-    // Set theme based on Telegram
-    const theme = getTelegramTheme()
-    if (settings.theme === 'auto') {
-      setSettings({
-        ...settings,
-        theme: theme
-      })
-    }
-
-    setLoading(false)
+    void doAuth()
   }, [isOnboarded, user, settings, setUser, setOnboarded, setSettings, setLoading])
 
   if (isLoading) {

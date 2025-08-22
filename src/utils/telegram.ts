@@ -111,4 +111,43 @@ export const setTelegramBackgroundColor = (color: string) => {
   if (typeof window !== 'undefined' && window.Telegram?.WebApp?.setBackgroundColor) {
     window.Telegram.WebApp.setBackgroundColor(color)
   }
+}
+
+export const getTelegramInitData = (): string | null => {
+  if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) {
+    return window.Telegram.WebApp.initData
+  }
+  return null
+}
+
+export const authWithTelegram = async (): Promise<{
+  user?: {
+    id: string
+    name: string
+    karma: number
+    referralCode: string
+    isPremium: boolean
+    dailyDrawsUsed: number
+    lastDailyDraw?: string
+  }
+  error?: string
+}> => {
+  const initData = getTelegramInitData()
+  if (!initData) {
+    return { error: 'Telegram initData not available' }
+  }
+
+  const res = await fetch('/api/auth/telegram', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initData })
+  })
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    return { error: err?.error || 'Auth failed' }
+  }
+
+  const data = await res.json()
+  return { user: data.user }
 } 
